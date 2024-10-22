@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Textube</title>
+    
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="/static/styles.css">
+    
+    <script>
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+
+<header>
+    <h1>Transcription and Search App</h1>
+</header>
+
+<div class="container">
+    <form action="/process" method="post" enctype="multipart/form-data" onsubmit="showLoading()">
+        <label for="videoLink">YouTube Video Link:</label>
+        <input type="text" id="videoLink" name="videoLink" placeholder="Enter a YouTube link..."><br>
+
+        <label for="mp4Upload">Upload Media File:</label>
+        <input type="file" id="mp4Upload" name="mp4Upload" accept=".mp4,.mp3,.mkv"><br>
+
+        <label for="sentence">Enter text:</label>
+        <input type="text" id="sentence" name="sentence" placeholder="Enter a text to search..." required><br>
+
+        <input type="submit" value="Search">
+    </form>
+
+    <div id="loading" class="loading">Processing, please wait...</div>
+
+    {% if results %}
+    <div class="results">
+        <h2>Search Results:</h2>
+        <ul>
+            {% for result in results %}
+                <li>
+                    <p><strong>Text found:</strong> {{ result.text }}</p>
+                    <p><strong>Start Time:</strong> {{ result.start_time }} seconds</p>
+                    <p><strong>End Time:</strong> {{ result.end_time }} seconds</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
